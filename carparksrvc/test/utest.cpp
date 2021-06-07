@@ -1,5 +1,5 @@
 #include "../src/carpark.h"
-#include "carparksrvc/AllowParking.h"
+// #include "carparksrvc/AllowParking.h"
 // #include "carparksrvc/AllowLeaving.h"
 // Bring in gtest
 #include <gtest/gtest.h>
@@ -23,6 +23,15 @@ TEST(TestSuite, allowParking)
     }
     EXPECT_FALSE (pCarPark_SI->ReqParking(carparksrvc::enumCarType::bus));
 }
+
+TEST(TestSuite, allowleaving)
+{
+    auto pCarPark_SI = carparksrvc::CarPark::GetInstance();
+    ASSERT_TRUE (pCarPark_SI != nullptr);    
+    EXPECT_FALSE (pCarPark_SI->ReqLeaving(false, carparksrvc::enumCarType::bus));
+    EXPECT_TRUE (pCarPark_SI->ReqLeaving(true, carparksrvc::enumCarType::bus));
+}
+
 
 int main(int argc, char** argv)
 {

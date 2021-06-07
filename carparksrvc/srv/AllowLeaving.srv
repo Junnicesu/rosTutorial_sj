@@ -1,3 +1,4 @@
-bool paid
+bool isPaid
+int32 carType
 ---
 bool isAllowed
