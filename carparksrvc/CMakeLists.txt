@@ -54,6 +54,7 @@ add_message_files(
 add_service_files(
   FILES
   AllowParking.srv
+  AllowLeaving.srv
 #   Service2.srv
 )
 
