@@ -71,21 +71,35 @@ TEST(TestSuite, getColor)
     auto bottomRight = Chart(90, 80, 70, 70, red);    
     auto view1 = View(&centre, &bottomRight); 
     ASSERT_TRUE(view1.GetColor(60, 60) == black); 
-    ASSERT_TRUE(view1.GetColor(50, 50) == blue); 
-    ASSERT_TRUE(view1.GetColor(75, 75) == red);
+    ASSERT_TRUE(view1.GetColor(50, 50) == centre.color); 
+    ASSERT_TRUE(view1.GetColor(75, 75) == bottomRight.color);
     ASSERT_TRUE(view1.GetColor(0, 0) == black); 
     
     //intersected
     auto topLeftBig = Chart(10, 20, 50, 50, green);
     auto view2 = View(&centre, &topLeftBig);
-    ASSERT_TRUE(view2.GetColor(50, 50) == (blue + green)); 
-    ASSERT_TRUE(view2.GetColor(20, 30) == green); 
-    ASSERT_TRUE(view2.GetColor(53, 53) == blue);
+    ASSERT_TRUE(view2.GetColor(50, 50) == (centre.color + topLeftBig.color)); 
+    ASSERT_TRUE(view2.GetColor(20, 30) == topLeftBig.color); 
+    ASSERT_TRUE(view2.GetColor(53, 53) == centre.color);
     ASSERT_TRUE(view2.GetColor(90, 90) == black);
-    
+
     //contain
+    auto topRightBigger = Chart(90, 80, 30, 20, red);
+    auto view3 = View(&centre, &topRightBigger); 
+    ASSERT_TRUE(view3.GetColor(50, 50) == (centre.color + topRightBigger.color)); 
+    ASSERT_TRUE(view3.GetColor(40, 40) == topRightBigger.color); 
+    ASSERT_TRUE(view3.GetColor(100, 100) == black); 
 
     //chartB is null
+    auto view4 = View(nullptr, &centre); 
+    ASSERT_TRUE(view4.GetColor(50, 50) == centre.color); 
+    ASSERT_TRUE(view4.GetColor(100, 100) == black); 
+    
+    //line
+    auto lineSeg = Chart(47, 10, 47, 90, red);
+    auto lineSeg2 = Chart(30, 20, 87, 20, green); 
+    ASSERT_TRUE(View(&lineSeg, &lineSeg2).GetColor(47, 20) == (lineSeg.color + lineSeg2.color)); 
+
 }
 
 int main(int argc, char** argv)
